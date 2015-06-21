@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8" />
+	<title>NoNet | Detecting dead internet</title>
+	<style>
+		html {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background: #fff;
+			color: #2f2f2f;
+			font-family: sans-serif;
+			font-size: 1em;
+			margin: 0;
+			padding: 1em;
+		}
+		h1 {
+			font-size: 1.5em;
+			margin: 0 0 1em;
+		}
+		p {
+			margin: 0 0 0.75em;
+		}
+		#status {
+			background: #090;
+			color: #efefef;
+			padding: 1em 0.25em;
+			text-align: center;
+		}
+		#status.offline {
+			background: #900;
+		}
+	</style>
+</head>
+<body>
+	<h1>NoNet</h1>
+	<p>Testing if the internet is available.</p>
+
+	<div id="status">&hellip;</div>
+
+	<script src="nonet.js"></script>
+	<script>
+		var cutsMustard = ("querySelector" in document &&
+						   "localStorage" in window &&
+						   "addEventListener" in window) ? true : false;
+
+		if (cutsMustard) {
+			window.NoNet.init({
+				eventOnline: "online",
+				eventOffline: "offline",
+				interval: 1000
+			});
+
+			window.addEventListener("offline", function(e) {
+				var status = document.getElementById("status");
+				status.innerHTML = "You're offline!";
+				status.classList.add("offline");
+			});
+
+			window.addEventListener("online", function(e) {
+				var status = document.getElementById("status");
+				status.innerHTML = "You're online!";
+				status.classList.remove("offline");
+			});
+		}
+	</script>
+</body>
+</html>
